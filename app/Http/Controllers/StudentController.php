@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use App\Events\StudentRegistered;
 
 class StudentController extends Controller
 {
@@ -31,12 +32,16 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'username' => 'required|string|max:255',
-            'email' => 'required|email|unique:students',
-            'age' => 'required|integer|max:255',
+            'username' => 'required', // Adjust fields to match your DB
+            'email' => 'required|email',
+            'age' => 'required|integer',
         ]);
 
-        Student::create($validated);
+        // 1. Create the student
+        $student = Student::create($validated);
+
+        // 2. Dispatch the Event (The new part!)
+        event(new StudentRegistered($student));
 
         return redirect()->route('students.index');
     }
@@ -51,9 +56,9 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|email',
-            'course' => 'required|string|max:255',
+            'age' => 'required|integer|max:255',
         ]);
 
         $student->update($validated);

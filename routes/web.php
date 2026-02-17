@@ -13,5 +13,5 @@ Route::get('/', function () {
 
 
 Route::get('/c', function () {
-    return view('create');
+    return view('students.create');
 });
