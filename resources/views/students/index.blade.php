@@ -30,3 +30,7 @@
     </tr>
     @endforelse
 </table>
+
+<div style="padding: 20px;">
+    {{ $students->links() }}
+</div>

@@ -4,17 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use App\Events\StudentRegistered;
 
 class StudentController extends Controller
 {
     public function index()
     {
-        $students = Cache::remember('students_list', 60, function () {
-            return Student::all();
-        });
-
+        $students = Student::latest()->paginate(5);
         return view('students.index', compact('students'));
     }
 
