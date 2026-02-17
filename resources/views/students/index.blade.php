@@ -2,7 +2,7 @@
     <tr>
         <th>Name</th>
         <th>Email</th>
-        <th>Course</th>
+        <th>Age</th>
         <th>Actions</th>
     </tr>
 
